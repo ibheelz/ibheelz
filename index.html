@@ -95,6 +95,25 @@
             const referrerUrl = document.referrer || 'Direct Visit';
             const referrerSource = getReferrerSource(referrerUrl);
 
+            // Track visit count and last visit
+            let visitCount = 1;
+            let lastVisit = 'First visit';
+
+            try {
+                const visitData = JSON.parse(localStorage.getItem('ibheelzVisits') || '{"count": 0, "lastVisit": null}');
+                lastVisit = visitData.lastVisit ? `${visitData.lastVisit}` : 'First visit';
+                visitCount = visitData.count + 1;
+                localStorage.setItem('ibheelzVisits', JSON.stringify({
+                    count: visitCount,
+                    lastVisit: timestamp
+                }));
+            } catch (err) {
+                localStorage.setItem('ibheelzVisits', JSON.stringify({
+                    count: 1,
+                    lastVisit: timestamp
+                }));
+            }
+
             // Get comprehensive geolocation and network info
             let geoInfo = {
                 city: 'Unknown',
@@ -137,6 +156,16 @@
                                 name: '⏰ Time',
                                 value: timestamp,
                                 inline: false
+                            },
+                            {
+                                name: '📊 Visit Count',
+                                value: `${visitCount} visit${visitCount > 1 ? 's' : ''}`,
+                                inline: true
+                            },
+                            {
+                                name: '🕐 Last Visit',
+                                value: lastVisit,
+                                inline: true
                             },
                             {
                                 name: '🌍 Location',
