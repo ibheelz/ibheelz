@@ -125,10 +125,11 @@
                 city: 'Unknown',
                 country: 'Unknown',
                 ip: 'Unknown',
-                isp: 'Unknown',
-                org: 'Unknown',
-                timezone: 'Unknown',
-                region: 'Unknown'
+                isp: 'N/A',
+                org: 'N/A',
+                timezone: 'N/A',
+                region: 'N/A',
+                coordinates: 'N/A'
             };
 
             try {
@@ -186,12 +187,12 @@
                             },
                             {
                                 name: '🌍 Location',
-                                value: `${geoInfo.city}, ${geoInfo.region}, ${geoInfo.country}`,
+                                value: `${geoInfo.city || 'Unknown'}, ${geoInfo.region || 'N/A'}, ${geoInfo.country || 'Unknown'}`,
                                 inline: false
                             },
                             {
                                 name: '📍 Coordinates',
-                                value: geoInfo.coordinates,
+                                value: geoInfo.coordinates || 'N/A',
                                 inline: false
                             },
                             {
@@ -201,22 +202,22 @@
                             },
                             {
                                 name: '🌐 IP Address',
-                                value: geoInfo.ip,
+                                value: geoInfo.ip || 'Unknown',
                                 inline: false
                             },
                             {
                                 name: '🏢 ISP',
-                                value: geoInfo.isp,
+                                value: geoInfo.isp || 'N/A',
                                 inline: false
                             },
                             {
                                 name: '🏭 Organization',
-                                value: geoInfo.org,
+                                value: geoInfo.org || 'N/A',
                                 inline: false
                             },
                             {
                                 name: '⏱️ Timezone',
-                                value: geoInfo.timezone,
+                                value: geoInfo.timezone || 'N/A',
                                 inline: false
                             },
                             {
