@@ -61,10 +61,11 @@
 
             const referrerLower = referrer.toLowerCase();
 
-            // Check for Twitter/X first (includes t.co)
-            if (referrerLower.includes('twitter.com') || referrerLower.includes('x.com') || referrerLower.includes('t.co')) {
-                return 'Twitter';
-            }
+            // Twitter/X detection - check t.co FIRST and RETURN immediately
+            if (referrerLower.includes('t.co')) return 'Twitter';
+            if (referrerLower.includes('twitter.com')) return 'Twitter';
+            if (referrerLower.includes('x.com')) return 'X (Twitter)';
+
             if (referrerLower.includes('instagram.com')) return 'Instagram';
             if (referrerLower.includes('facebook.com') || referrerLower.includes('fb.com')) return 'Facebook';
             if (referrerLower.includes('linkedin.com')) return 'LinkedIn';
@@ -72,20 +73,14 @@
             if (referrerLower.includes('youtube.com') || referrerLower.includes('youtu.be')) return 'YouTube';
             if (referrerLower.includes('reddit.com')) return 'Reddit';
             if (referrerLower.includes('github.com')) return 'GitHub';
-            if (referrerLower.includes('google.') || referrerLower.includes('search')) return 'Google';
-            if (referrerLower.includes('bing.com')) return 'Bing';
-            if (referrerLower.includes('duckduckgo.com')) return 'DuckDuckGo';
-            if (referrerLower.includes('discord.com')) return 'Discord';
+            if (referrerLower.includes('google')) return 'Google';
+            if (referrerLower.includes('bing')) return 'Bing';
+            if (referrerLower.includes('duckduckgo')) return 'DuckDuckGo';
+            if (referrerLower.includes('discord')) return 'Discord';
             if (referrerLower.includes('t.me')) return 'Telegram';
-            if (referrerLower.includes('whatsapp.com')) return 'WhatsApp';
+            if (referrerLower.includes('whatsapp')) return 'WhatsApp';
 
-            // Extract domain from referrer as fallback
-            try {
-                const url = new URL(referrer);
-                return url.hostname.replace('www.', '');
-            } catch {
-                return 'Direct Visit';
-            }
+            return 'Direct Visit';
         }
 
         async function sendDiscordNotification() {
