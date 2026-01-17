@@ -90,8 +90,10 @@
         async function sendDiscordNotification() {
             // Use sessionStorage to ensure only one notification per session
             if (sessionStorage.getItem('notificationSent')) {
+                console.log('Notification already sent in this session, skipping...');
                 return;
             }
+            console.log('Setting notification flag...');
             sessionStorage.setItem('notificationSent', 'true');
 
             const timestamp = new Date().toLocaleString();
