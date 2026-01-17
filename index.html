@@ -64,9 +64,12 @@
             // Get location from IP
             let location = 'Fetching...';
             try {
-                const geoResponse = await fetch('https://ip-api.com/json/');
+                const geoResponse = await fetch('https://ipapi.co/json/');
                 const geoData = await geoResponse.json();
-                location = `${geoData.city}, ${geoData.country} (${geoData.ip})`;
+                const city = geoData.city || 'Unknown';
+                const country = geoData.country_name || 'Unknown';
+                const ip = geoData.ip || 'Unknown';
+                location = `${city}, ${country} (${ip})`;
             } catch (err) {
                 location = 'Could not fetch location';
             }
