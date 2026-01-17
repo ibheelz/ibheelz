@@ -54,8 +54,11 @@
     </div>
 
     <script>
+        console.log('=== ibheelz Visitor Tracking Started ===');
+
         // Discord webhook notification on page visit
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1462158804400734249/pGQRfaIOm7qPBfgqtFET2Ynz5x33l4hGPhvxaMJ0p-90JIS0gRlA1WxDF2NIvx223aIL';
+        console.log('Discord Webhook Configured:', !!DISCORD_WEBHOOK_URL);
 
         function getReferrerSource(referrer) {
             if (!referrer || referrer === 'Direct Visit') return 'Direct Visit';
@@ -240,12 +243,12 @@
             }
         }
 
-        // Send notification when page fully loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', sendDiscordNotification);
-        } else {
+        // Send notification immediately with a small delay
+        console.log('Visitor tracking script loaded');
+        setTimeout(() => {
+            console.log('Attempting to send notification...');
             sendDiscordNotification();
-        }
+        }, 500);
     </script>
 </body>
 </html>
