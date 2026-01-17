@@ -51,5 +51,71 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Discord webhook notification on page visit
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1462158804400734249/pGQRfaIOm7qPBfgqtFET2Ynz5x33l4hGPhvxaMJ0p-90JIS0gRlA1WxDF2NIvx223aIL';
+
+        async function sendDiscordNotification() {
+            const timestamp = new Date().toLocaleString();
+            const userAgent = navigator.userAgent;
+            const referrer = document.referrer || 'Direct';
+
+            // Get location from IP
+            let location = 'Fetching...';
+            try {
+                const geoResponse = await fetch('https://ip-api.com/json/');
+                const geoData = await geoResponse.json();
+                location = `${geoData.city}, ${geoData.country} (${geoData.ip})`;
+            } catch (err) {
+                location = 'Could not fetch location';
+            }
+
+            const payload = {
+                content: '🔔 New visitor to ibheelz.com',
+                embeds: [
+                    {
+                        color: 0xFFFFFF,
+                        fields: [
+                            {
+                                name: '⏰ Time',
+                                value: timestamp,
+                                inline: false
+                            },
+                            {
+                                name: '📍 Location',
+                                value: location,
+                                inline: false
+                            },
+                            {
+                                name: '🔗 Referrer',
+                                value: referrer,
+                                inline: false
+                            },
+                            {
+                                name: '📱 Browser',
+                                value: userAgent.substring(0, 100),
+                                inline: false
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            // Only send if webhook URL is configured
+            if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== 'YOUR_DISCORD_WEBHOOK_URL_HERE') {
+                fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                }).catch(err => console.log('Notification sent'));
+            }
+        }
+
+        // Send notification when page loads
+        window.addEventListener('load', sendDiscordNotification);
+    </script>
 </body>
 </html>
