@@ -64,7 +64,7 @@
 
             // Map of platforms and their domain patterns
             const platforms = {
-                'Twitter': ['twitter.com', 'x.com'],
+                'Twitter': ['twitter.com', 'x.com', 't.co'],
                 'Instagram': ['instagram.com', 'l.instagram.com'],
                 'Facebook': ['facebook.com', 'fb.com'],
                 'LinkedIn': ['linkedin.com'],
@@ -107,17 +107,27 @@
             const referrerUrl = document.referrer || 'Direct Visit';
             const referrerSource = getReferrerSource(referrerUrl);
 
-            // Get location from IP
+            // Get location from IP - try multiple APIs for reliability
             let location = 'Fetching...';
             try {
-                const geoResponse = await fetch('https://ipapi.co/json/');
-                const geoData = await geoResponse.json();
+                // Try ipapi.co first
+                let geoData = null;
+                try {
+                    const response1 = await fetch('https://ipapi.co/json/');
+                    geoData = await response1.json();
+                    if (!geoData.city || !geoData.country_name) throw new Error('Incomplete data');
+                } catch {
+                    // Fallback to ip-api.com
+                    const response2 = await fetch('https://ip-api.com/json/?fields=city,country,ip');
+                    geoData = await response2.json();
+                }
+
                 const city = geoData.city || 'Unknown';
-                const country = geoData.country_name || 'Unknown';
+                const country = geoData.country || geoData.country_name || 'Unknown';
                 const ip = geoData.ip || 'Unknown';
                 location = `${city}, ${country} (${ip})`;
             } catch (err) {
-                location = 'Could not fetch location';
+                location = 'Location unavailable';
             }
 
             const payload = {
