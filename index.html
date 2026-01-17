@@ -55,11 +55,57 @@
     <script>
         // Discord webhook notification on page visit
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1462158804400734249/pGQRfaIOm7qPBfgqtFET2Ynz5x33l4hGPhvxaMJ0p-90JIS0gRlA1WxDF2NIvx223aIL';
+        let notificationSent = false;
+
+        function getReferrerSource(referrer) {
+            if (!referrer) return 'Direct Visit';
+
+            const referrerLower = referrer.toLowerCase();
+
+            // Map of platforms and their domain patterns
+            const platforms = {
+                'Twitter': ['twitter.com', 'x.com'],
+                'Instagram': ['instagram.com', 'l.instagram.com'],
+                'Facebook': ['facebook.com', 'fb.com'],
+                'LinkedIn': ['linkedin.com'],
+                'TikTok': ['tiktok.com'],
+                'YouTube': ['youtube.com', 'youtu.be'],
+                'Reddit': ['reddit.com'],
+                'GitHub': ['github.com'],
+                'Google': ['google.com', 'google.', 'search'],
+                'Bing': ['bing.com'],
+                'DuckDuckGo': ['duckduckgo.com'],
+                'Discord': ['discord.com'],
+                'Telegram': ['t.me'],
+                'WhatsApp': ['whatsapp.com'],
+            };
+
+            for (const [platform, domains] of Object.entries(platforms)) {
+                for (const domain of domains) {
+                    if (referrerLower.includes(domain)) {
+                        return platform;
+                    }
+                }
+            }
+
+            // Extract domain from referrer
+            try {
+                const url = new URL(referrer);
+                return url.hostname.replace('www.', '');
+            } catch {
+                return referrer;
+            }
+        }
 
         async function sendDiscordNotification() {
+            // Prevent duplicate notifications
+            if (notificationSent) return;
+            notificationSent = true;
+
             const timestamp = new Date().toLocaleString();
             const userAgent = navigator.userAgent;
-            const referrer = document.referrer || 'Direct';
+            const referrerUrl = document.referrer || 'Direct Visit';
+            const referrerSource = getReferrerSource(referrerUrl);
 
             // Get location from IP
             let location = 'Fetching...';
@@ -91,8 +137,8 @@
                                 inline: false
                             },
                             {
-                                name: '🔗 Referrer',
-                                value: referrer,
+                                name: '🔗 Source',
+                                value: referrerSource,
                                 inline: false
                             },
                             {
@@ -117,8 +163,12 @@
             }
         }
 
-        // Send notification when page loads
-        window.addEventListener('load', sendDiscordNotification);
+        // Send notification immediately when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', sendDiscordNotification);
+        } else {
+            sendDiscordNotification();
+        }
     </script>
 </body>
 </html>
