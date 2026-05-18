@@ -1,79 +1,74 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const navLinks = [
+const desktopNavLinks = [
+  { label: "work", href: "/projects" },
+];
+
+const mobileNavPages = [
   { label: "home", href: "/" },
-  { label: "projects", href: "/projects" },
+  { label: "work", href: "/projects" },
+  { label: "contact", href: "/contact" },
 ];
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = (href: string) => pathname === href;
+
+  const getCurrentPageIndex = () => {
+    return mobileNavPages.findIndex((page) => page.href === pathname);
+  };
+
+  const goToPreviousPage = () => {
+    const currentIndex = getCurrentPageIndex();
+    const previousIndex = currentIndex === 0 ? mobileNavPages.length - 1 : currentIndex - 1;
+    router.push(mobileNavPages[previousIndex].href);
+  };
+
+  const goToNextPage = () => {
+    const currentIndex = getCurrentPageIndex();
+    const nextIndex = currentIndex === mobileNavPages.length - 1 ? 0 : currentIndex + 1;
+    router.push(mobileNavPages[nextIndex].href);
+  };
+
+  const currentPageLabel = mobileNavPages[getCurrentPageIndex()]?.label || "home";
 
   return (
     <>
       {/* Main Header */}
       <header className="fixed top-0 left-0 right-0 z-50 h-[55px] bg-[rgba(0,0,0,0.8)] backdrop-blur-[10px] border-b border-red px-10">
-        <div className="max-w-[1200px] mx-auto h-full flex items-center justify-center gap-8 relative">
+        <div className="max-w-[1200px] mx-auto h-full flex items-center justify-center gap-8">
           {/* CENTER: Logo Image */}
           <Link href="/" className="text-red hover:text-red transition-colors duration-200">
-            <img src="/favicon.png" alt="bheelz" className="w-6 h-6 object-contain" />
+            <img src="/favicon.png" alt="bheelz" className="w-9 h-9 object-contain" />
           </Link>
-
-          {/* RIGHT: Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="tablet:hidden text-red hover:text-red-dim transition-colors absolute right-10"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
         </div>
       </header>
 
       {/* Navigation Bar */}
       <nav className="fixed top-[55px] left-0 right-0 z-50 bg-red border-b border-red px-10">
-        <div className="max-w-[1200px] mx-auto flex items-center justify-center gap-8 h-[45px]">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm transition-colors duration-200 px-3 py-1 font-medium ${
-                isActive(link.href)
-                  ? "bg-black text-red font-extrabold"
-                  : "text-black hover:bg-black hover:text-red"
-              }`}
+        <div className="max-w-[1200px] mx-auto h-[45px] flex items-center justify-center">
+          {/* Navigation with Arrows */}
+          <div className="flex items-center justify-center gap-4 bg-black px-4 py-2">
+            <button
+              onClick={goToPreviousPage}
+              className="text-red text-xl font-bold"
             >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="absolute top-[45px] left-0 right-0 bg-red border-b border-red tablet:hidden">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`block px-10 py-3 text-sm transition-colors font-medium ${
-                  isActive(link.href)
-                    ? "bg-black text-red font-extrabold"
-                    : "text-black hover:bg-black hover:text-red"
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+              ❮
+            </button>
+            <div className="text-sm font-medium text-red">{currentPageLabel}</div>
+            <button
+              onClick={goToNextPage}
+              className="text-red text-xl font-bold"
+            >
+              ❯
+            </button>
           </div>
-        )}
+        </div>
       </nav>
     </>
   );
