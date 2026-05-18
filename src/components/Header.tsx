@@ -17,14 +17,13 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-[55px] bg-[rgba(0,0,0,0.8)] backdrop-blur-[10px] border-b border-red px-10">
-      <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between">
-        {/* LEFT: Logo */}
-        <Link href="/" className="text-red hover:text-red transition-colors duration-200 flex items-center gap-2">
-          <img src="/favicon.png" alt="bheelz" className="w-5 h-5" />
-          <span className="text-sm font-medium">bheelz@ibheelz:</span>
+      <div className="max-w-[1200px] mx-auto h-full flex items-center justify-center gap-8 relative">
+        {/* CENTER: Logo Image */}
+        <Link href="/" className="text-red hover:text-red transition-colors duration-200">
+          <img src="/favicon.png" alt="bheelz" className="w-6 h-6" />
         </Link>
 
-        {/* CENTER/RIGHT: Desktop Nav */}
+        {/* CENTER: Desktop Nav */}
         <nav className="hidden tablet:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -44,7 +43,7 @@ export default function Header() {
         {/* RIGHT: Mobile menu button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="tablet:hidden text-red hover:text-red-dim transition-colors"
+          className="tablet:hidden text-red hover:text-red-dim transition-colors absolute right-10"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
