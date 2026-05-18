@@ -6,10 +6,10 @@ export default function Home() {
 ████▀ ██ ██ ▀█▄▄▄ ▀█▄▄▄ ██ ▄██▄▄`;
 
   return (
-    <div className="pt-20 pb-20 px-10">
+    <div className="pt-10 tablet:pt-20 pb-20 px-10">
       <div className="max-w-[1200px] mx-auto flex flex-col items-center">
         <div className="border border-red p-4">
-          <pre className="text-red font-mono text-[13px] leading-[1] whitespace-pre font-bold">
+          <pre className="text-red font-mono text-[13px] tablet:text-[18px] leading-[1] whitespace-pre font-bold">
             {asciiArt}
           </pre>
         </div>
