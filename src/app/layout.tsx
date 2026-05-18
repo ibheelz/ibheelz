@@ -37,7 +37,7 @@ export default function RootLayout({
         <GradientScanner />
         <div className="relative z-10">
           <Header />
-          <main className="pt-[55px] pb-[55px]">
+          <main className="pt-[100px] pb-[55px]">
             {children}
           </main>
           <Footer />
