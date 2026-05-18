@@ -1,11 +1,8 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
-const desktopNavLinks = [
-  { label: "work", href: "/projects" },
-];
 
 const mobileNavPages = [
   { label: "home", href: "/" },
@@ -16,8 +13,6 @@ const mobileNavPages = [
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-
-  const isActive = (href: string) => pathname === href;
 
   const getCurrentPageIndex = () => {
     return mobileNavPages.findIndex((page) => page.href === pathname);
