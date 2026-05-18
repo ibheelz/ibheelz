@@ -22,7 +22,7 @@ export default function Header() {
         <div className="max-w-[1200px] mx-auto h-full flex items-center justify-center gap-8 relative">
           {/* CENTER: Logo Image */}
           <Link href="/" className="text-red hover:text-red transition-colors duration-200">
-            <img src="/favicon.png" alt="bheelz" className="w-6 h-6" />
+            <img src="/favicon.png" alt="bheelz" className="w-6 h-6 object-contain" />
           </Link>
 
           {/* RIGHT: Mobile menu button */}
@@ -44,10 +44,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors duration-200 px-3 py-1 font-medium ${
+              className={`text-sm transition-colors duration-200 px-3 py-1 font-medium bg-black text-red hover:text-red ${
                 isActive(link.href)
-                  ? "text-black font-extrabold"
-                  : "text-black hover:opacity-70"
+                  ? "font-extrabold"
+                  : ""
               }`}
             >
               {link.label}
@@ -62,10 +62,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block px-10 py-3 text-sm transition-colors font-medium ${
+                className={`block px-10 py-3 text-sm transition-colors font-medium bg-black text-red hover:text-red ${
                   isActive(link.href)
-                    ? "text-black bg-[rgba(0,0,0,0.1)] font-extrabold"
-                    : "text-black hover:bg-[rgba(0,0,0,0.05)]"
+                    ? "font-extrabold"
+                    : ""
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
