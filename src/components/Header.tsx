@@ -44,10 +44,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors duration-200 px-3 py-1 font-medium bg-black text-red hover:text-red ${
+              className={`text-sm transition-colors duration-200 px-3 py-1 font-medium text-red ${
                 isActive(link.href)
-                  ? "font-extrabold"
-                  : ""
+                  ? "bg-black font-extrabold"
+                  : "hover:bg-black"
               }`}
             >
               {link.label}
@@ -62,10 +62,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block px-10 py-3 text-sm transition-colors font-medium bg-black text-red hover:text-red ${
+                className={`block px-10 py-3 text-sm transition-colors font-medium text-red ${
                   isActive(link.href)
-                    ? "font-extrabold"
-                    : ""
+                    ? "bg-black font-extrabold"
+                    : "hover:bg-black"
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
