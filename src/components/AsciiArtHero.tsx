@@ -9,7 +9,7 @@ export default function AsciiArtHero() {
       <pre className="text-red text-[13px] leading-[1] tracking-normal font-medium m-0 whitespace-pre">
         {asciiArt}
       </pre>
-      <p className="text-white text-base font-medium m-0">Developer & Pentester</p>
+      <p className="text-white text-base font-medium m-0">developer & pentester</p>
     </div>
   );
 }

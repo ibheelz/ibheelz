@@ -13,8 +13,8 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "bheelz — Developer & Pentester",
-  description: "Full-stack developer and penetration tester based in Lagos, Nigeria.",
+  title: "ibheelz",
+  description: "full-stack developer and penetration tester based in lagos, nigeria.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
