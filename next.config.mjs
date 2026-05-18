@@ -2,6 +2,7 @@
 const nextConfig = {
   output: 'export',
   basePath: '/ibheelz',
+  trailingSlash: true,
 };
 
 export default nextConfig;
